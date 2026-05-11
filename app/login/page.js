@@ -9,7 +9,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (status === "authenticated") router.push("/");
+    if (status === "authenticated") router.replace("/");
   }, [status]);
 
   async function handleGoogle() {
@@ -17,33 +17,55 @@ export default function LoginPage() {
     await signIn("google", { callbackUrl: "/" });
   }
 
-  if (status === "loading") return (
-    <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"#f9f9f9"}}>
-      <div style={{width:20,height:20,border:"2px solid #eee",borderTop:"2px solid #111",borderRadius:"50%",animation:"spin 0.8s linear infinite"}}/>
+  // Show spinner while loading OR while redirecting authenticated users
+  if (status === "loading" || status === "authenticated") return (
+    <div style={{minHeight:"100vh",display:"flex",alignItems:"center",
+      justifyContent:"center",background:"#f9f9f9"}}>
+      <div style={{width:20,height:20,border:"2px solid #eee",
+        borderTop:"2px solid #111",borderRadius:"50%",
+        animation:"spin 0.8s linear infinite"}}/>
       <style>{"@keyframes spin{to{transform:rotate(360deg)}}"}</style>
     </div>
   );
 
   return (
-    <div style={{minHeight:"100vh",background:"#f9f9f9",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:24}}>
+    <div style={{minHeight:"100vh",background:"#f9f9f9",display:"flex",
+      flexDirection:"column",alignItems:"center",justifyContent:"center",
+      padding:24,fontFamily:"Inter,sans-serif"}}>
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
       <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-      <style>{"*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',sans-serif}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24}"}</style>
+      <style>{"*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,sans-serif;background:#f9f9f9}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24}@keyframes spin{to{transform:rotate(360deg)}}"}</style>
 
       <div style={{width:"100%",maxWidth:400}}>
+
         <div style={{textAlign:"center",marginBottom:40}}>
-          <div style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:44,height:44,background:"#111",borderRadius:12,marginBottom:16}}>
-            <span style={{color:"#fff",fontSize:20,fontWeight:700}}>R</span>
+          <div style={{display:"inline-flex",alignItems:"center",
+            justifyContent:"center",width:48,height:48,background:"#111",
+            borderRadius:12,marginBottom:16}}>
+            <span style={{color:"#fff",fontSize:22,fontWeight:700}}>R</span>
           </div>
-          <h1 style={{fontSize:26,fontWeight:700,color:"#111",letterSpacing:"-0.03em",marginBottom:8}}>Welcome to ResuAI</h1>
-          <p style={{fontSize:14,color:"#999",lineHeight:1.6}}>Sign in to analyze your resume and track your projects.</p>
+          <h1 style={{fontSize:26,fontWeight:700,color:"#111",
+            letterSpacing:"-0.03em",marginBottom:8}}>
+            Welcome to ResuAI</h1>
+          <p style={{fontSize:14,color:"#999",lineHeight:1.6}}>
+            Sign in to analyze your resume and track your projects.</p>
         </div>
 
-        <div style={{background:"#fff",border:"1px solid #ebebeb",borderRadius:20,padding:28,marginBottom:24}}>
+        <div style={{background:"#fff",border:"1px solid #ebebeb",
+          borderRadius:20,padding:28,marginBottom:24}}>
+
           <button
             onClick={handleGoogle}
             disabled={loading}
-            style={{width:"100%",padding:"14px 20px",background:"#fff",border:"1.5px solid #e0e0e0",borderRadius:12,display:"flex",alignItems:"center",justifyContent:"center",gap:12,fontSize:14,fontWeight:600,color:"#333",cursor:loading?"not-allowed":"pointer",transition:"all 0.15s",marginBottom:20,opacity:loading?0.7:1}}
+            style={{width:"100%",padding:"14px 20px",background:"#fff",
+              border:"1.5px solid #e0e0e0",borderRadius:12,display:"flex",
+              alignItems:"center",justifyContent:"center",gap:12,fontSize:14,
+              fontWeight:600,color:"#333",
+              cursor:loading?"not-allowed":"pointer",
+              opacity:loading?0.7:1,marginBottom:20,
+              transition:"border-color 0.15s"}}
+            onMouseEnter={e=>e.currentTarget.style.borderColor="#999"}
+            onMouseLeave={e=>e.currentTarget.style.borderColor="#e0e0e0"}
           >
             <svg width="18" height="18" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -54,23 +76,36 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Continue with Google"}
           </button>
 
-          <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:20}}>
+          <div style={{display:"flex",alignItems:"center",gap:12,
+            marginBottom:20}}>
             <div style={{flex:1,height:1,background:"#f0f0f0"}}/>
-            <span style={{fontSize:11,color:"#ccc",fontWeight:500}}>COMING SOON</span>
+            <span style={{fontSize:11,color:"#ccc",fontWeight:500}}>
+              COMING SOON</span>
             <div style={{flex:1,height:1,background:"#f0f0f0"}}/>
           </div>
 
-          <button disabled style={{width:"100%",padding:"14px 20px",background:"#fafafa",border:"1.5px solid #f0f0f0",borderRadius:12,display:"flex",alignItems:"center",justifyContent:"center",gap:12,fontSize:14,fontWeight:500,color:"#ccc",cursor:"not-allowed"}}>
-            <span className="material-symbols-outlined" style={{fontSize:18,color:"#ddd"}}>phone</span>
+          <button disabled
+            style={{width:"100%",padding:"14px 20px",background:"#fafafa",
+              border:"1.5px solid #f0f0f0",borderRadius:12,display:"flex",
+              alignItems:"center",justifyContent:"center",gap:12,fontSize:14,
+              fontWeight:500,color:"#ccc",cursor:"not-allowed"}}>
+            <span className="material-symbols-outlined"
+              style={{fontSize:18,color:"#ddd"}}>phone</span>
             Continue with Phone
           </button>
         </div>
 
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
-          {[["bolt","3 free / month"],["shield","Private & secure"],["history","History saved"]].map(([icon,label]) => (
-            <div key={label} style={{background:"#fff",border:"1px solid #ebebeb",borderRadius:12,padding:"12px 8px",textAlign:"center"}}>
-              <span className="material-symbols-outlined" style={{fontSize:18,color:"#bbb",display:"block",marginBottom:4}}>{icon}</span>
-              <span style={{fontSize:10,color:"#bbb",fontWeight:500,lineHeight:1.3,display:"block"}}>{label}</span>
+          {[["bolt","3 free / month"],["shield","Private"],
+            ["history","History saved"]].map(([icon,label]) => (
+            <div key={label} style={{background:"#fff",
+              border:"1px solid #ebebeb",borderRadius:12,
+              padding:"12px 8px",textAlign:"center"}}>
+              <span className="material-symbols-outlined"
+                style={{fontSize:18,color:"#bbb",display:"block",
+                  marginBottom:4}}>{icon}</span>
+              <span style={{fontSize:10,color:"#bbb",fontWeight:500,
+                lineHeight:1.3,display:"block"}}>{label}</span>
             </div>
           ))}
         </div>
