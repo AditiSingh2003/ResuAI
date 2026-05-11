@@ -1,3 +1,5 @@
+files = {
+"lib/mongoose.js": '''\
 import mongoose from "mongoose";
 
 let cached = global.mongoose || { conn: null, promise: null };
@@ -24,3 +26,12 @@ export async function connectDB() {
   cached.conn = await cached.promise;
   return cached.conn;
 }
+'''
+}
+
+import os
+for path, content in files.items():
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"Written: {path}")
+print("Done!")
