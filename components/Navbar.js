@@ -6,7 +6,7 @@ export default function Navbar({ showBack = false, subtitle = null }) {
   const { data: session } = useSession();
   const router = useRouter();
   const used = session?.user?.analysesUsed ?? 0;
-  const limit = session?.user?.analysesLimit ?? 3;
+  const limit = session?.user?.analysesLimit ?? 5;
   const remaining = limit - used;
 
   return (
