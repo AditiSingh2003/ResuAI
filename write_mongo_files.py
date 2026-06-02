@@ -158,7 +158,7 @@ export async function POST(request) {
     // Reset monthly limit if needed
     if (new Date() > new Date(user.resetDate)) {
       user.analysesUsed = 0;
-      user.resetDate = new Date(Date.now() + 30*24*60*60*1000);
+      user.resetDate = new Date(Date.now() + 24*60*60*1000);
       await user.save();
     }
 
